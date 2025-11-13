@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal">
+<head>
+    <meta charset="utf-8"/>
+    <title>Quick Tutorial: ${name}</title>
+</head>
+<body>
+<h1>Login</h1>
+<p tal:condition="message">${message}</p>
+<form action="${url}" method="post">
+    <input type="hidden" name="came_from" value="${came_from}"/>
+    <label for="login">Username</label>
+    <input id="login" name="login" type="text" value="${login}"/><br/>
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" value="${password}"/><br/>
+    <input type="submit" name="form.submitted" value="Log In"/>
+</form>
+<p><a href="${request.route_url('home')}">Back home</a></p>
+</body>
+</html>

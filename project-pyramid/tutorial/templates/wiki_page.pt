@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal">
+<head>
+    <meta charset="utf-8"/>
+    <title>Wiki: ${page.title}</title>
+</head>
+<body>
+<h1>${page.title}</h1>
+<div tal:content="structure page.body"></div>
+<p>
+    <a href="${request.route_url('wikipage_edit', uid=page.uid)}">Edit</a> |
+    <a href="${request.route_url('wiki_view')}">All pages</a>
+</p>
+</body>
+</html>

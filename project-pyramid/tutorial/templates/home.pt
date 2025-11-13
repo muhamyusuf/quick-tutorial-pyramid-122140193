@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal">
+<head>
+    <meta charset="utf-8"/>
+    <title>Quick Tutorial: ${name}</title>
+    <link rel="stylesheet" href="${request.static_url('tutorial:static/css/app.css')}"/>
+</head>
+<body>
+<header>
+    <h1>${name}</h1>
+    <p>Session counter: ${counter}</p>
+    <p>
+        <span tal:condition="logged_in">Logged in as ${logged_in}</span>
+        <a tal:condition="not logged_in" href="${request.route_url('login')}">Log In</a>
+        <a tal:condition="logged_in" href="${request.route_url('logout')}">Logout</a>
+    </p>
+</header>
+
+<main>
+    <section>
+        <h2>Routes</h2>
+        <ul>
+            <li><a href="${request.route_url('plain')}">Plain text response</a></li>
+            <li><a href="${request.route_url('hello', first='jane', last='doe')}">Hello view (requires editor login)</a></li>
+            <li><a href="${request.route_url('hello_json')}">JSON renderer</a></li>
+            <li><a href="${request.route_url('wiki_view')}">Wiki (forms + SQLAlchemy)</a></li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>

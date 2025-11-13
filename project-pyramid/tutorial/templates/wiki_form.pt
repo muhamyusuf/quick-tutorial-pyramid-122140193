@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal">
+<head>
+    <meta charset="utf-8"/>
+    <title>Wiki: Add/Edit</title>
+    <link rel="stylesheet" tal:repeat="href resources/css" href="${href}"/>
+</head>
+<body>
+<h1>Wiki</h1>
+<div tal:replace="structure form"></div>
+<script tal:repeat="src resources/js" src="${src}"></script>
+<p><a href="${request.route_url('wiki_view')}">Back</a></p>
+</body>
+</html>

@@ -1,0 +1,115 @@
+# 13: CSS/JS/Images Files With Static Assets — The Pyramid Web Framework v2.0.2
+Of course the Web is more than just markup. You need static assets: CSS, JS, and images. Let's point our web app at a directory where Pyramid will serve some static assets.
+
+Objectives
+-------------------------------------------------
+
+*   Publish a directory of static assets at a URL.
+    
+*   Use Pyramid to help generate URLs to files in that directory.
+    
+
+Steps
+---------------------------------------
+
+1.  First we copy the results of the `view_classes` step:
+    
+    ```
+cd ..; cp -r view_classes static_assets; cd static_assets
+$VENV/bin/pip install -e .
+
+```
+
+    
+2.  We add a call `config.add_static_view` in `static_assets/tutorial/__init__.py`:
+    
+    ```
+ 1from pyramid.config import Configurator
+ 2
+ 3
+ 4def main(global_config, **settings):
+ 5    config = Configurator(settings=settings)
+ 6    config.include('pyramid_chameleon')
+ 7    config.add_route('home', '/')
+ 8    config.add_route('hello', '/howdy')
+ 9    config.add_static_view(name='static', path='tutorial:static')
+10    config.scan('.views')
+11    return config.make_wsgi_app()
+
+```
+
+    
+3.  We can add a CSS link in the `<head>` of our template at `static_assets/tutorial/home.pt`:
+    
+    ```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quick Tutorial: ${name}</title>
+    <link rel="stylesheet"
+          href="${request.static_url('tutorial:static/app.css') }"/>
+</head>
+<body>
+<h1>Hi ${name}</h1>
+</body>
+</html>
+
+```
+
+    
+4.  Add a CSS file at `static_assets/tutorial/static/app.css`:
+    
+    ```
+body {
+    margin: 2em;
+    font-family: sans-serif;
+}
+
+```
+
+    
+5.  We add a functional test that asserts that the newly added static file is delivered:
+    
+    ```
+46    def test_css(self):
+47        res = self.testapp.get('/static/app.css', status=200)
+48        self.assertIn(b'body', res.body)
+
+```
+
+    
+6.  Now run the tests:
+    
+    ```
+$VENV/bin/pytest tutorial/tests.py -q
+....
+5 passed in 0.50 seconds
+
+```
+
+    
+7.  Run your Pyramid application with:
+    
+    ```
+$VENV/bin/pserve development.ini --reload
+
+```
+
+    
+8.  Open [http://localhost:6543/](http://localhost:6543/) in your browser and note the new font.
+    
+
+Analysis
+---------------------------------------------
+
+We changed our WSGI application to map requests under [http://localhost:6543/static/](http://localhost:6543/static/) to files and directories inside a `static` directory inside our `tutorial` package. This directory contained `app.css`.
+
+We linked to the CSS in our template. We could have hard-coded this link to `/static/app.css`. But what if the site is later moved under `/somesite/static/`? Or perhaps the web developer changes the arrangement on disk? Pyramid gives a helper that provides flexibility on URL generation:
+
+```
+${request.static_url('tutorial:static/app.css')}
+
+```
+
+
+This matches the `path='tutorial:static'` in our `config.add_static_view` registration. By using `request.static_url` to generate the full URL to the static assets, you both ensure you stay in sync with the configuration and gain refactoring flexibility later.

@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Environments
+.env
+.env.*/
+.venv/
+env/
+venv/
+
+# IDE/OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Build / logs
+*.log
+*.sqlite
+*.db
+
+# Project specific
+project-pyramid/.venv/
+project-pyramid/quick_tutorial.sqlite
