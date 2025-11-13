@@ -29,3 +29,6 @@ Thumbs.db
 # Project specific
 project-pyramid/.venv/
 project-pyramid/quick_tutorial.sqlite
+
+# Documentation Local
+documentation/
